@@ -16,7 +16,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if (Auth::id() == $id) {
+        if (!$this->checkUserLoggedIn($id)) {
+            return response()->redirectToRoute('login');
+        }
+
+        try {
             $user_query = "SELECT * FROM users WHERE id = :id";
             $user = DB::select($user_query, ['id' => $id])["0"];
 
@@ -27,8 +31,12 @@ class UserController extends Controller
                 'user' => $user,
                 'user_info' => (!empty($user_info) ? $user_info["0"] : null)
             ], 202);
-        } else {
-            return response()->redirectToRoute('users.show', ['id' => Auth::id()]);
+        } catch (\Exception $e) {
+            return response()->view('errors.exceptions', [
+                'title' => 'Server Exception',
+                'message' => $e->getMessage(),
+                'requested_url' => '/'
+            ], 500);
         }
     }
 
@@ -40,13 +48,22 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if (Auth::id() == $id) {
+        if (!$this->checkUserLoggedIn($id)) {
+            return response()->redirectToRoute('login');
+        }
+        
+        try {
             $user_query = "SELECT * FROM users WHERE id = :id";
             $user = DB::select($user_query, ['id' => $id])["0"];
 
-            return response()->view('user.edit', ['user' => $user]);
-        } else {
-            return response()->route('user.edit', ['id' => Auth::id()], 402);
+            return view('user.edit', ['user' => $user]);
+
+        } catch (\Exception $e) {
+            return response()->view('errors.exceptions', [
+                'title' => 'Server Exception',
+                'message' => $e->getMessage(),
+                'requested_url' => '/'
+            ], 500);
         }
     }
 
@@ -60,5 +77,11 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         // TO-DO UPDATE THE IBAN + DNI + BILLING ADDRESS
+    }
+
+    private function checkUserLoggedIn(int $id) {
+        if (Auth::id() != $id) {
+            return false;
+        }
     }
 }

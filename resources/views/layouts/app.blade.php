@@ -53,7 +53,7 @@
 
             .links > a {
                 color: #636b6f;
-                padding: 0 25px;
+                margin: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
@@ -63,6 +63,9 @@
 
             .m-b-md {
                 margin-bottom: 30px;
+            }
+            .m-t-md {
+                margin-top:30px;
             }
             .form-content {
                 padding: 20px;
@@ -83,6 +86,7 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
             @yield('content')
+            @yield('back-home')
             </div>
         </div>
     </body>

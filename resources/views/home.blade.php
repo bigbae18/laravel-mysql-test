@@ -9,10 +9,16 @@
 <a href={{ route('users.show', ['id' => Auth::id()]) }}>
     Profile
 </a>
+<a href={{ route('logout') }}>
+    Logout
+</a>
 @endauth
 @guest
-<a href={{ route('login.get') }}>
+<a href={{ route('login') }}>
     Login
+</a>
+<a href={{ route('register') }}>
+    Register
 </a>
 @endguest
 </div>

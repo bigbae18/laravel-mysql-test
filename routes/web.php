@@ -17,8 +17,11 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('login', 'LoginController@index')->name('login.get');
-Route::post('login', 'LoginController@store')->name('login.post');
+Route::get('register', 'RegisterController@index')->name('register');
+Route::post('register', 'RegisterController@store');
+Route::get('login', 'LoginController@index')->name('login');
+Route::post('login', 'LoginController@store');
+Route::get('logout', 'LoginController@logout')->name('logout');
 Route::prefix('users')->group(function() {
     Route::get('/{id}', 'UserController@show')->name('users.show');
     Route::get('/info/{id}', 'UserController@edit')->name('users.info.edit');

@@ -13,7 +13,13 @@
         Password
         <input type="password" name="password" id="password" required>
     </label>
-    <button type="submit">Login</button>
+    <button class="m-t-md" type="submit">Login</button>
 </form>
 <div>
+@endsection
+
+@section('back-home')
+<div class="links m-t-md">
+<a href={{ route('home') }}>Go Home</a>
+</div>
 @endsection
