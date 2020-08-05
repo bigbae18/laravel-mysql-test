@@ -10,11 +10,11 @@
     @endforeach
 @endif
 @if ($errors->has('password'))
-    @foreach ($error->get('password') as $password)
+    @foreach ($errors->get('password') as $message)
         <p>{{$message}}<p>
     @endforeach
 @endif
 
-<a href={{$requested_url}}>Go Back</a>
+<a href="{{$requested_url}}">Go Back</a>
 </div>
 @endsection

@@ -50,8 +50,10 @@
             .title-error {
                 font-size: 50px;
             }
-
-            .links > a {
+            p {
+                text-align:center;
+            }
+            a {
                 color: #636b6f;
                 margin: 0 25px;
                 font-size: 13px;
@@ -87,6 +89,7 @@
             <div class="content">
             @yield('content')
             @yield('back-home')
+            @yield('back-button')
             </div>
         </div>
     </body>

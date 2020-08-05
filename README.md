@@ -1,79 +1,101 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Prueba con Laravel y MySQL
+Esta aplicación está hecha con Laravel 7.x y MySQL por [Adrián Pelayo](https://www.github.com/bigbae18). Está escrita en **Inglés**. Cumple las necesidades de:
+- Registrar usuarios.
+- Autentificar usuarios.
+- Insertar y actualizar `IBAN`, DNI | `Identity Document`, Dirección de Facturación | `Billing Address`
+- Validación de formularios.
+### Requerimientos
+Necesitarás tener instalado para instalar las dependencias y crear la conexión para configurarla en el archivo `.env`
+* [PHP](https://www.php.net/) >= 7.*
+* [Composer](https://getcomposer.org/)
+* [XAMPP para MySQL](https://www.apachefriends.org/es/index.html)
+#### Setup
+**Primero de todo necesitarás clonar este repositorio**
+```
+git clone https://github.com/bigbae18/laravel-mysql-test.git mi-directorio
+```
+**Cambiamos a nuestro directorio**
+```
+cd mi-directorio
+```
+**Instalamos las dependencias del proyecto**
+```
+composer install
+```
+**Una vez instaladas las dependencias**, debemos copiar todo el contenido de `.env.example` dentro de un nuevo fichero `.env` y asegurarnos que tenemos una base de datos llamada "adribank". 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+En caso de tener un puerto distinto en tu conexión de MySQL que el por defecto, querer usar una base de datos propia (con otro nombre, o otras credenciales de usuario), deberemos editar las siguientes variables en el fichero `.env`
+```
+DB_PORT=<puerto de conexión>
+DB_DATABASE=<nombre de base de datos>
+DB_USER=<usuario>
+DB_PASSWORD=<contraseña>
+```
+**Para crear las tablas en nuestra base de datos**, existen 2 migraciones en `..\database\migrations\` con las tablas y los campos hechos. Si nuestros datos de conexión están bien en `.env`, y nuestra conexión a MySQL abierta, debemos introducir
+```
+php artisan migrate
+```
+**Aunque os recomiendo utilizar las migraciones con el UserSeeder, que genera usuarios con datos aleatorios pero encajando nuestro patrón de validación**, y no te preocupes si has generado las migraciones ya, vuelve a tu terminal y escribe
+```
+php artisan migrate:fresh --seed
+```
+Si todo ha ido bien, al introducir el comando `php artisan serve` veremos un mensaje conforme nuestro servidor ha sido abierto con enlace `http://localhost:8000/`
 
-## About Laravel
+### Uso de la Aplicación
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**En esta parte de la explicación, os desglosaré los diferentes directorios importantes**
+##### UserSeeder
+Ruta:
+```
+..\database\seeds\UserSeeder.php
+```
+Este Seeder es una funcionalidad que brinda Laravel para poder generar datos aleatorios en una base de datos con el modelo que tenemos ya establecido (`..\app\User.php`). Comando: `php artisan migrate:fresh --seed` (Resetea la base de datos e introduce los usuarios generados por el Seeder). Estos usuarios se crean por defecto con la contraseña `password`. 
+Así que para hacer login con uno de estos usuarios, debemos acceder a `localhost/phpMyAdmin`, copiar el correo y usarlo como credencial junto a la palabra `password` como contraseña para que pueda hacer la comprobación el controlador.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##### Controladores
+Ruta:
+```
+..\app\Http\Controllers
+```
+> RegisterController.php
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Método | Explicación | Ruta |
+| ------ | ------ | ------ |
+| **index()** | Se encarga de devolver la vista del formulario para que el usuario se registre. | `GET` **/register** |
+| **store(Request $request)** | Se encarga de procesar la solicitud y validar los datos introducidos por el usuario, devolver los errores pertinentes o registrar a dicho usuario si todo ha salido bien. | `POST` **/register** |
+> LoginController.php
 
-## Learning Laravel
+| Método | Explicación | Ruta |
+| ------ | ------ | ------ |
+| **index()** | Se encarga de devolver la vista del formulario para que el usuario pueda validar sus credenciales. | `GET` **/login** |
+| **store(Request $request)** | Se encarga de procesar la solicitud, hacer las comprobaciones necesarias contra la base de datos, devolver errores pertinentes o acabar autentificando al usuario. | `POST` **/login** |
+> UserController.php
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Método | Explicación | Ruta |
+| ------ | ------ | ------ |
+| **index($id)** | Se encarga de devolver la vista del usuario por id. Valida si el usuario que están pidiendo es el que está autentificado, y hace dos consultas a base de datos para obtener al User y su UserInfo. | `GET` **/users/{id}/** |
+| **create($id)** | Se encarga de devolver la vista del formulario para meter los datos `IBAN`, `Identity Document` y `Billing Address`. Validación de usuario autentificado y consultas para User y UserInfo. | `GET` **/users/{id}/create** |
+| **store(Request $request, $id)** | Se encarga de procesar la solicitud y validar los datos introducidos por el usuario con los validadores. Utiliza `..\app\Rules\Iban` como validador personalizado. Devuelve errores si hay, sino inserta los datos en base de datos. | `POST` **/users/{id}/store** |
+| **edit($id)** | Se encarga de devolver la vista del formulario para actualizar los datos del usuario. Validación de usuario y consultas para User y UserInfo | `GET` **/users/{id}/edit** |
+| **update(Request $request, $id)** | Se encarga de actualizar usuarios. Se encarga de validar los datos introducidos por el usuario, y las peticiones a base de datos correspondientes. | `PUT` **/users/{id}/update** |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+##### Vistas
 
-## Laravel Sponsors
+Ruta para las vistas
+```
+..\resources\views
+```
+##### Rutas
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Rutas de la web
+```
+..\routes\web.php
+```
+Ahí podemos ver las rutas que están especificadas para cada uno de los métodos de los [controladores](#controladores)
+##### Regla de Validación `IBAN`
+Ruta del fichero
+```
+..\app\Rules\Iban.php
+```
+**La validación de** `IBAN` consta de una expresion regular que contiene el patrón de IBAN de España.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

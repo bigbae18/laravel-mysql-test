@@ -20,6 +20,6 @@
 
 @section('back-home')
 <div class="links m-t-md">
-<a href={{ route('home') }}>Go Home</a>
+<a href="{{ route('home') }}">Go Home</a>
 </div>
 @endsection

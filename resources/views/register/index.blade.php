@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="title m-b-md">AdriBank Login</h1>
+<h1 class="title m-b-md">AdriBank Register</h1>
 <div class="form-content">
 <form action="register" method="POST">
     @csrf
@@ -36,6 +36,6 @@
 
 @section('back-home')
 <div class="links m-t-md">
-<a href={{ route('home') }}>Go Home</a>
+<a href="{{ route('home') }}">Go Home</a>
 </div>
 @endsection

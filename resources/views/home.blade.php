@@ -6,18 +6,18 @@
 </h1>
 <div class="links">
 @auth
-<a href={{ route('users.show', ['id' => Auth::id()]) }}>
+<a href="{{ route('users.index', ['id' => Auth::id()]) }}">
     Profile
 </a>
-<a href={{ route('logout') }}>
+<a href="{{ route('logout') }}">
     Logout
 </a>
 @endauth
 @guest
-<a href={{ route('login') }}>
+<a href="{{ route('login') }}">
     Login
 </a>
-<a href={{ route('register') }}>
+<a href="{{ route('register') }}">
     Register
 </a>
 @endguest

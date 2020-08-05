@@ -64,13 +64,13 @@ class LoginController extends Controller
             
             Auth::loginUsingId($user["0"]->id);
 
-            return redirect()->route('users.show', ['id' => $user["0"]->id]);
+            return redirect()->route('users.index', ['id' => $user["0"]->id]);
 
         } catch (\Exception $e) {
             return response()->view('errors.exceptions', [
                 'title' => 'Exception on query',
                 'message' => $e->getMessage(),
-                'requested_url' => $redirect_url
+                'requested_url' => $request_url
             ],500);
         }
     }

@@ -23,7 +23,10 @@ Route::get('login', 'LoginController@index')->name('login');
 Route::post('login', 'LoginController@store');
 Route::get('logout', 'LoginController@logout')->name('logout');
 Route::prefix('users')->group(function() {
-    Route::get('/{id}', 'UserController@show')->name('users.show');
-    Route::get('/info/{id}', 'UserController@edit')->name('users.info.edit');
-    Route::post('/info/update', 'UserController@update')->name('users.info.update');
+
+    Route::get('/{id}', 'UserController@index')->name('users.index');
+    Route::get('/{id}/create', 'UserController@create')->name('users.create');
+    Route::post('/{id}/store', 'UserController@store')->name('users.store');
+    Route::get('/{id}/edit', 'UserController@edit')->name('users.edit');
+    Route::put('/{id}/update', 'UserController@update')->name('users.update');
 });

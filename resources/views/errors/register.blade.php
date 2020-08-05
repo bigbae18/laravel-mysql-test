@@ -35,6 +35,6 @@
     @endforeach
 @endif
 
-<a href={{$requested_url}}>Go Back</a>
+<a href="{{$requested_url}}">Go Back</a>
 </div>
 @endsection

@@ -5,6 +5,6 @@
 
 <div class="links">
 <p>{{$errors}}</p>
-<a href={{$requested_url}}>Go Back</a>
+<a href="{{$requested_url}}">Go Back</a>
 </div>
 @endsection
