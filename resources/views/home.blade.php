@@ -1,26 +1,19 @@
 @extends('layouts.app')
 
-@section('authorized')
-<h1 class="title m-b-md">
-    Bienvenido Fiera
-</h1>
-<div class="links">
-<a href='#'>
-    Añadir info
-</a>
-</div>
-@endsection
-
-@section('not-authorized')
+@section('content')
 <h1 class="title m-b-md">
     Adri Bank
 </h1>
 <div class="links">
-<a href={{ url('login') }}>
+@auth
+<a href={{ route('users.show', ['id' => Auth::id()]) }}>
+    Profile
+</a>
+@endauth
+@guest
+<a href={{ route('login.get') }}>
     Login
 </a>
-<a href={{ url('register') }}>
-    Register
-</a>
+@endguest
 </div>
 @endsection

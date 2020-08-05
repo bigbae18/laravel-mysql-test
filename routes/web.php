@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
-Route::get('login', function () {
-    return view('login');
-});
-
-Route::get('register', function() {
-    return view('register');
+Route::get('login', 'LoginController@index')->name('login.get');
+Route::post('login', 'LoginController@store')->name('login.post');
+Route::prefix('users')->group(function() {
+    Route::get('/{id}', 'UserController@show')->name('users.show');
+    Route::get('/info/{id}', 'UserController@edit')->name('users.info.edit');
+    Route::post('/info/update', 'UserController@update')->name('users.info.update');
 });

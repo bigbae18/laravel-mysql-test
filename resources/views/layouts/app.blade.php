@@ -47,6 +47,9 @@
             .title {
                 font-size: 84px;
             }
+            .title-error {
+                font-size: 50px;
+            }
 
             .links > a {
                 color: #636b6f;
@@ -61,16 +64,25 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            .form-content {
+                padding: 20px;
+                width: 70%;
+                margin: auto;
+            }
+            input {
+                width: 100%;
+                padding: 5px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                border: 1px solid #BBB;
+                border-radius: 4px;
+            }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
-            @auth
-                @yield('authorized')
-            @else
-                @yield('not-authorized')
-            @endauth
+            @yield('content')
             </div>
         </div>
     </body>
