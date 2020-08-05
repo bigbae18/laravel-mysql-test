@@ -9,7 +9,7 @@
 <div>
     <p>We have no information about you...</p>
     <p>We require to access atleast to IBAN's user account.</p>
-    <a href={{ route('users.create', ['id' => $user->id]) }}>Insert data</a>
+    <a href="{{ route('users.create', ['id' => $user->id]) }}">Insert data</a>
 @else
 <div>
     <h3>Data stored:</h3>
@@ -22,9 +22,9 @@
     @if ($user_info->billing_address !== null)
         <p>Billing Address: {{ $user_info->billing_address }}</p>
     @endif
-    <a href={{ route('users.edit', ['id' => $user->id]) }}>Update</a>
-    <a href={{ route('home') }}>Go Home</a>
+    <a href="{{ route('users.edit', ['id' => $user->id]) }}">Update data</a>
     @endif
+    <a href="{{ route('home') }}">Go Home</a>
 </div>
 @endsection
 
