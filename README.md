@@ -85,6 +85,34 @@ Ruta para las vistas
 ```
 ..\resources\views
 ```
+> \home.blade.php como invitado
+
+![Home Guest](https://bigbae18.github.io/test_images/home_guest.PNG)
+> \home.blade.php como autentificado
+
+![Home Authentified](https://bigbae18.github.io/test_images/home_login.PNG)
+> \login\index.blade.php
+
+![Login Index](https://bigbae18.github.io/test_images/login_get.PNG)
+
+**Dejo un ejemplo sobre como sería el login de un usuario generado con UserSeeder**
+
+![UserSeeder Example](https://bigbae18.github.io/test_images/userseeder_login_example.PNG)
+> \register\index.blade.php
+
+![Register Index](https://bigbae18.github.io/test_images/register_get.PNG)
+> \user\index.blade.php sin datos de usuario
+
+![User Index Without Data](https://bigbae18.github.io/test_images/users_index.PNG)
+> \user\index.blade.php con datos de usuario
+
+![User Index With Data](https://bigbae18.github.io/test_images/users_index_with_data.PNG)
+> \user\create.blade.php
+
+![User Create](https://bigbae18.github.io/test_images/users_create.PNG)
+> \user\edit.blade.php
+
+![User Edit Missing Data](https://bigbae18.github.io/test_images/users_edit_missing_data.PNG)
 ##### Rutas
 
 Rutas de la web
