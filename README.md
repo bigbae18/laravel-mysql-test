@@ -4,12 +4,12 @@ Esta aplicación está hecha con Laravel 7.x y MySQL por [Adrián Pelayo](https:
 - Autentificar usuarios.
 - Insertar y actualizar `IBAN`, DNI | `Identity Document`, Dirección de Facturación | `Billing Address`
 - Validación de formularios.
-### Requerimientos
+## Requerimientos
 Necesitarás tener instalado para instalar las dependencias y crear la conexión para configurarla en el archivo `.env`
 * [PHP](https://www.php.net/) >= 7.*
 * [Composer](https://getcomposer.org/)
 * [XAMPP para MySQL](https://www.apachefriends.org/es/index.html)
-#### Setup
+### Setup
 **Primero de todo necesitarás clonar este repositorio**
 ```
 git clone https://github.com/bigbae18/laravel-mysql-test.git mi-directorio
@@ -41,10 +41,10 @@ php artisan migrate:fresh --seed
 ```
 Si todo ha ido bien, al introducir el comando `php artisan serve` veremos un mensaje conforme nuestro servidor ha sido abierto con enlace `http://localhost:8000/`
 
-### Uso de la Aplicación
+## Uso de la Aplicación
 
 **En esta parte de la explicación, os desglosaré los diferentes directorios importantes**
-##### UserSeeder
+#### UserSeeder
 Ruta:
 ```
 ..\database\seeds\UserSeeder.php
@@ -52,7 +52,7 @@ Ruta:
 Este Seeder es una funcionalidad que brinda Laravel para poder generar datos aleatorios en una base de datos con el modelo que tenemos ya establecido (`..\app\User.php`). Comando: `php artisan migrate:fresh --seed` (Resetea la base de datos e introduce los usuarios generados por el Seeder). Estos usuarios se crean por defecto con la contraseña `password`. 
 Así que para hacer login con uno de estos usuarios, debemos acceder a `localhost/phpMyAdmin`, copiar el correo y usarlo como credencial junto a la palabra `password` como contraseña para que pueda hacer la comprobación el controlador.
 
-##### Controladores
+#### Controladores
 Ruta:
 ```
 ..\app\Http\Controllers
@@ -79,7 +79,7 @@ Ruta:
 | **edit($id)** | Se encarga de devolver la vista del formulario para actualizar los datos del usuario. Validación de usuario y consultas para User y UserInfo | `GET` **/users/{id}/edit** |
 | **update(Request $request, $id)** | Se encarga de actualizar usuarios. Se encarga de validar los datos introducidos por el usuario, y las peticiones a base de datos correspondientes. | `PUT` **/users/{id}/update** |
 
-##### Vistas
+#### Vistas
 
 Ruta para las vistas
 ```
@@ -113,14 +113,14 @@ Ruta para las vistas
 > \user\edit.blade.php
 
 ![User Edit Missing Data](https://bigbae18.github.io/test_images/users_edit_missing_data.PNG)
-##### Rutas
+#### Rutas
 
 Rutas de la web
 ```
 ..\routes\web.php
 ```
 Ahí podemos ver las rutas que están especificadas para cada uno de los métodos de los [controladores](#controladores)
-##### Regla de Validación `IBAN`
+#### Regla de Validación `IBAN`
 Ruta del fichero
 ```
 ..\app\Rules\Iban.php
